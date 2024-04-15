@@ -1,69 +1,63 @@
-Tabelas:
+## Tabelas:
 
-a. Evento:
+### Accounts
+| Coluna         | Tipo                | Restrições            | Comentários / Informações Extras |
+|----------------|---------------------|-----------------------|----------------------------------|
+| AccountID      | UNIQUEIDENTIFIER    | PRIMARY KEY, DEFAULT NEWID() | Identificador único da conta. |
+| Username       | NVARCHAR(50)        | UNIQUE                | Nome de usuário único. |
+| PasswordHash   | NVARCHAR(255)       |                       | Hash da senha do usuário. **Obs.:** Depreciado. |
+| FirstName      | NVARCHAR(50)        |                       | Primeiro nome do titular da conta. |
+| LastName       | NVARCHAR(50)        |                       | Último nome do titular da conta. |
+| Email          | NVARCHAR(255)       |                       | Endereço de e-mail do titular da conta. |
+| RegistrationDate | DATETIME           | DEFAULT GETDATE()     | Data de registro da conta. |
 
-ID_Evento (Chave Primária)
-Nome
-Descrição
-Data e Hora de Início
-Data e Hora de Término
-Localização (para eventos presenciais)
-Tipo (online ou presencial)
-Preço (para eventos pagos)
-Capacidade (para eventos limitados)
-Status (ativo, cancelado, etc.)
-Criador (ID_Participante que criou o evento)
-Outros detalhes relevantes do evento
-b. Participante:
+### Events
+| Coluna         | Tipo                | Restrições            | Comentários / Informações Extras |
+|----------------|---------------------|-----------------------|----------------------------------|
+| EventID        | UNIQUEIDENTIFIER    | PRIMARY KEY, DEFAULT NEWID() | Identificador único do evento. |
+| Name           | NVARCHAR(255)       |                       | Nome do evento. |
+| Description    | NVARCHAR(MAX)       |                       | Descrição detalhada do evento. |
+| StartDateTime  | DATETIME            |                       | Data e hora de início do evento. |
+| EndDateTime    | DATETIME            |                       | Data e hora de término do evento. |
+| Location       | NVARCHAR(255)       |                       | Localização do evento. |
+| Type           | NVARCHAR(50)        |                       | Tipo do evento (Online ou Presencial). |
+| Price          | DECIMAL(10, 2)      |                       | Preço do evento (para eventos pagos). |
+| Capacity       | INT                 |                       | Capacidade máxima de participantes do evento. |
+| Status         | NVARCHAR(50)        |                       | Status do evento (Ativo, Cancelado, etc.). |
+| CreatorID      | UNIQUEIDENTIFIER    | FOREIGN KEY (Accounts(AccountID)) | Identificador único do criador do evento. |
 
-ID_Participante (Chave Primária)
-Nome
-Email
-Data de Nascimento
-Gênero
-Endereço
-Informações de Contato
-Tipo de Conta (regular, premium, etc.)
-Outros detalhes do participante
-c. Participacao:
+### Attendees
+| Coluna         | Tipo                | Restrições            | Comentários / Informações Extras |
+|----------------|---------------------|-----------------------|----------------------------------|
+| AttendeeID     | UNIQUEIDENTIFIER    | PRIMARY KEY, DEFAULT NEWID() | Identificador único do participante. |
+| AccountID      | UNIQUEIDENTIFIER    | FOREIGN KEY (Accounts(AccountID)) | Identificador único da conta do participante. |
+| Name           | NVARCHAR(255)       |                       | Nome do participante. |
+| Email          | NVARCHAR(255)       |                       | Endereço de e-mail do participante. |
+| BirthDate      | DATE                |                       | Data de nascimento do participante. |
+| Gender         | NVARCHAR(10)        |                       | Gênero do participante. |
+| Address        | NVARCHAR(255)       |                       | Endereço do participante. |
+| ContactInfo    | NVARCHAR(255)       |                       | Informações de contato do participante. |
+| AccountType    | NVARCHAR(50)        |                       | Tipo de conta do participante. |
 
-ID_Participacao (Chave Primária)
-ID_Evento (Chave Estrangeira referenciando Evento)
-ID_Participante (Chave Estrangeira referenciando Participante)
-Estado (por exemplo, Confirmado, Pendente, Cancelado)
-Comentário ou Avaliação
-Data e Hora de Inscrição
-Outras informações relevantes da participação
-d. CategoriaEvento:
+### CheckIns
+| Coluna         | Tipo                | Restrições            | Comentários / Informações Extras |
+|----------------|---------------------|-----------------------|----------------------------------|
+| CheckInID      | UNIQUEIDENTIFIER    | PRIMARY KEY, DEFAULT NEWID() | Identificador único do check-in. |
+| EventID        | UNIQUEIDENTIFIER    | FOREIGN KEY (Events(EventID)) | Identificador único do evento associado ao check-in. |
+| AttendeeID     | UNIQUEIDENTIFIER    | FOREIGN KEY (Attendees(AttendeeID)) | Identificador único do participante associado ao check-in. |
+| State          | NVARCHAR(50)        |                       | Estado do check-in (Realizado, Não realizado, etc.). |
+| CheckInDateTime | DATETIME           |                       | Data e hora do check-in. |
 
-ID_Categoria (Chave Primária)
-Nome da Categoria
-Descrição da Categoria
-e. EventoCategoria:
+### Categories
+| Coluna         | Tipo                | Restrições            | Comentários / Informações Extras |
+|----------------|---------------------|-----------------------|----------------------------------|
+| CategoryID     | UNIQUEIDENTIFIER    | PRIMARY KEY, DEFAULT NEWID() | Identificador único da categoria. |
+| Name           | NVARCHAR(100)       |                       | Nome da categoria. |
+| Description    | NVARCHAR(MAX)       |                       | Descrição da categoria. |
 
-ID_EventoCategoria (Chave Primária)
-ID_Evento (Chave Estrangeira referenciando Evento)
-ID_Categoria (Chave Estrangeira referenciando CategoriaEvento)
-Campos adicionais na tabela Evento:
-
-Tipo: Indica se o evento é online ou presencial.
-Preço: Indica o preço do evento, se aplicável.
-Capacidade: Indica o número máximo de participantes permitidos, se aplicável.
-Status: Permite controlar o status do evento, como ativo, cancelado, etc.
-Criador: Armazena o ID do participante que criou o evento.
-Categoria: Relacionamento muitos para muitos com a tabela CategoriaEvento para categorizar os eventos.
-Campos adicionais na tabela Participante:
-
-Data de Nascimento: Armazena a data de nascimento do participante.
-Gênero: Permite registrar o gênero do participante.
-Endereço: Armazena informações de endereço do participante.
-Tipo de Conta: Pode ser usado para diferenciar entre diferentes tipos de contas de usuário (por exemplo, regular, premium).
-Campos adicionais na tabela Participacao:
-
-Comentário ou Avaliação: Permite que os participantes deixem comentários ou avaliações sobre o evento.
-Data e Hora de Inscrição: Registra a data e hora em que o participante se inscreveu no evento.
-Relacionamentos e Chaves Estrangeiras:
-
-As chaves estrangeiras garantem a integridade referencial entre as tabelas.
-O relacionamento entre Evento e CategoriaEvento permite associar um evento a uma ou mais categorias.
-Essa estrutura de banco de dados mais completa deve ser capaz de lidar com os diferentes tipos de eventos e participantes, além de permitir uma gestão mais detalhada das informações na sua plataforma de gerenciamento de eventos. 
+### EventsCategory
+| Coluna         | Tipo                | Restrições            | Comentários / Informações Extras |
+|----------------|---------------------|-----------------------|----------------------------------|
+| EventCategoryID | UNIQUEIDENTIFIER   | PRIMARY KEY, DEFAULT NEWID() | Identificador único da relação entre evento e categoria. |
+| EventID        | UNIQUEIDENTIFIER    | FOREIGN KEY (Events(EventID)) | Identificador único do evento associado à relação. |
+| CategoryID     | UNIQUEIDENTIFIER    | FOREIGN KEY (Categories(CategoryID)) | Identificador único da categoria associada à relação. |
