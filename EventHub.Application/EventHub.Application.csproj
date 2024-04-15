@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventHub.Communication\EventHub.Communication.csproj" />
+    <ProjectReference Include="..\EventHub.Exceptions\EventHub.Exceptions.csproj" />
+    <ProjectReference Include="..\EventHub.Infrastructure\EventHub.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
