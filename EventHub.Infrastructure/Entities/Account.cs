@@ -6,14 +6,15 @@ using System.Text;
 namespace EventHub.Infrastructure.Entities;
 public class Account
 {
+    
     private string passwordHash;
+   
     [Key]
-    [Column("AccountID")]
-    public Guid AccountID { get; set; }
+    public Guid ID_Account { get; set; }
 
     [Required]
     [MaxLength(50)]
-    public string Username { get; set; }
+    public string Username { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(255)]
@@ -22,11 +23,9 @@ public class Account
         get { return passwordHash; }
         set { passwordHash = HashPassword(value); }
     }
-
     [Required]
     [MaxLength(50)]
-    public string FirstName { get; set; } = string.Empty;
-
+    public string FirstName { get; set; } = string.Empty ;
     [Required]
     [MaxLength(50)]
     public string LastName { get; set; } = string.Empty;
@@ -35,13 +34,10 @@ public class Account
     [MaxLength(255)]
     public string Email { get; set; } = string.Empty;
 
-    [Column(TypeName = "datetime")]
-    public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+    public DateTime RegistrationDate { get; set; }
 
-    [ForeignKey("CreatorID")]
-    public List<Event> Events { get; set; } = new List<Event>();
+    public ICollection<Event> CreatedEvents { get; set; } = new List<Event>();
 
-   
 
     private string HashPassword(string password)
     {

@@ -5,21 +5,19 @@ namespace EventHub.Infrastructure.Entities;
 public class CheckIn
 {
     [Key]
-    [Column("CheckInID")]
-    public Guid CheckInID { get; set; }
+    public Guid ID_CheckIn { get; set; }
 
-    [Column("EventID")]
-    public Guid EventID { get; set; }
-    public Event Event { get; set; }
+    public Guid ID_Event { get; set; }
 
-    [Column("AttendeeID")]
-    public Guid AttendeeID { get; set; }
-    public Attendee Attendee { get; set; }
+    public Guid ID_Attendee { get; set; }
 
-    [Required]
-    [MaxLength(50)]
     public string State { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime CheckInDateTime { get; set; }
+
+    [ForeignKey("ID_Event")]
+    public Event Event { get; set; }
+
+    [ForeignKey("ID_Attendee")]
+    public Attendee Attendee { get; set; }
 }

@@ -31,7 +31,7 @@ namespace EventHub.Application.UseCases.Events
             await _repository.CreateEventAsync(userID, evnt);
             return new EventCreatedResponseJson
             {
-                Id = evnt.EventID,
+                Id = evnt.ID_Event,
                 Name = evnt.Name,
                 CreatorID = evnt.CreatorID,
             };

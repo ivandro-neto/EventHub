@@ -5,15 +5,11 @@ namespace EventHub.Infrastructure.Entities;
 public class Category
 {
     [Key]
-    [Column("CategoryID")]
-    public Guid CategoryID { get; set; }
+    public Guid ID_Category { get; set; }
 
-    [Required]
-    [MaxLength(100)]
     public string Name { get; set; }
 
-    [Required]
     public string Description { get; set; }
 
-    public List<EventCategory> EventCategories { get; set; }
+    public ICollection<EventCategory> EventCategories { get; set; }
 }

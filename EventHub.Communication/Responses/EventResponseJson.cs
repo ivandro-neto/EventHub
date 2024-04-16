@@ -5,9 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EventHub.Communication.Responses;
 public class EventResponseJson
 {
-    [Key]
-    [Column("EventID")]
-    public Guid EventID { get; set; }
+    public Guid ID_Event { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;

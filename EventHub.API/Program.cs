@@ -7,6 +7,7 @@ using EventHub.Application.UseCases.Accounts.Register;
 using EventHub.Application.UseCases.Events;
 using EventHub.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
 
 namespace EventHub.API
@@ -18,6 +19,7 @@ namespace EventHub.API
             var builder = WebApplication.CreateBuilder(args);
 
             //Configuring Repositories and Database context dependency
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IEventRepository, EventRepository>();
 
             //Add Use Cases
@@ -25,8 +27,6 @@ namespace EventHub.API
             builder.Services.AddScoped<GetAllEventsUseCase>();
             builder.Services.AddScoped<GetEventByIdUseCase>();
             builder.Services.AddScoped<RegisterAttendeeUseCase>();
-
-            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<GetAllAccountsUseCase>();
             builder.Services.AddScoped<AccountRegisterUseCase>();
 
@@ -40,10 +40,15 @@ namespace EventHub.API
             });
 
             builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
-            builder.Services.AddDbContext<EventHubDBContext>(option => option.UseSqlServer(connectionString, options =>
+            /*builder.Services.AddDbContext<EventHubDBContext>(option => option.UseSqlServer(connectionString, options =>
             {
                 options.CommandTimeout(120); // Define o tempo limite para 120 segundos (2 minutos)
-            }));
+            }));*/
+            builder.Services.AddDbContext<EventHubDBContext>(options =>
+            {
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
+
             builder.Services.AddControllers();
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

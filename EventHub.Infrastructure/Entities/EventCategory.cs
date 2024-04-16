@@ -1,18 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EventHub.Infrastructure.Entities;
-public class EventCategory
+namespace EventHub.Infrastructure.Entities
 {
-    [Key]
-    [Column("EventCategoryID")]
-    public Guid EventCategoryID { get; set; }
+    public class EventCategory
+    {
+        [Key]
+        public Guid ID_EventCategory { get; set; }
 
-    [Column("EventID")]
-    public Guid EventID { get; set; }
-    public Event Event { get; set; }
+        public Guid ID_Event { get; set; }
 
-    [Column("CategoryID")]
-    public Guid CategoryID { get; set; }
-    public Category Category { get; set; }
+        public Guid ID_Category { get; set; }
+
+        [ForeignKey("ID_Event")]
+        public Event Event { get; set; }
+
+        [ForeignKey("ID_Category")]
+        public Category Category { get; set; }
+    }
 }

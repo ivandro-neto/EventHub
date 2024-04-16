@@ -4,50 +4,46 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventHub.Infrastructure.Entities;
 
+
+
 public class Event
 {
     [Key]
-    [Column("EventID")]
-    public Guid EventID { get; set; }
+    public Guid ID_Event { get; set; }
 
     [Required]
     [MaxLength(255)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    [Required]
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
-    [Column(TypeName = "datetime")]
     public DateTime StartDateTime { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime EndDateTime { get; set; }
 
-    [Required]
     [MaxLength(255)]
-    public string Location { get; set; }
+    public string Location { get; set; } = string.Empty ;
 
-    [Required]
     [MaxLength(50)]
-    public string Type { get; set; }
+    public string Type { get; set; } = string.Empty;
 
     public decimal Price { get; set; }
 
     public int Capacity { get; set; }
 
-    [Required]
     [MaxLength(50)]
-    public string Status { get; set; } = "Inactive";
+    public string Status { get; set; } = string.Empty;
 
-    [Column("CreatorID")]
     public Guid CreatorID { get; set; }
-  
 
-    public List<EventCategory> EventCategories { get; set; } = new List<EventCategory>();
-    public List<Attendee> Attendees { get; set; } = new List<Attendee>();
+    [ForeignKey("CreatorID")]
+    public Account Creator { get; set; } = new();
+    //[InverseProperty("Event")]
+    //public ICollection<CheckIn> checkIns{ get; set; }
+    //[InverseProperty("Event")]
+    //public ICollection<EventCategory> EventCategories { get; set; }
 
-
-public void Update(string name, string description, DateTime startDate, DateTime endDate, string location, string type, decimal price, int capacity, string status)
+    public void Update(string name, string description, DateTime startDate, DateTime endDate, string location, string type, decimal price, int capacity, string status)
     {
         Name = name;
         Description = description;

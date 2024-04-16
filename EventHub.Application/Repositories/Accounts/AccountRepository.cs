@@ -27,7 +27,7 @@ namespace EventHub.Application.Repositories.Accounts
         }
         public async Task CreateAccountAsync(Account account)
         {
-            await _context.Accounts.AddAsync(account);
+            await _context.Account.AddAsync(account);
             await _context.SaveChangesAsync();
         }
 
@@ -38,17 +38,17 @@ namespace EventHub.Application.Repositories.Accounts
                 try
                 {
                     // Encontra a conta pelo ID
-                    var account = await _context.Accounts.Include(a => a.Events).FirstOrDefaultAsync(ac => ac.AccountID == id);
+                    var account = await _context.Account.Include(a => a.CreatedEvents).FirstOrDefaultAsync(ac => ac.ID_Account == id);
                     if (account == null)
                     {
                         throw new ArgumentException($"Conta com o ID {id} não encontrada.");
                     }
 
                     // Remove os eventos associados à conta
-                    _context.Events.RemoveRange(account.Events);
+                    _context.Event.RemoveRange(account.CreatedEvents);
 
                     // Remove a conta
-                    _context.Accounts.Remove(account);
+                    _context.Account.Remove(account);
 
                     // Salva as alterações no banco de dados
                     await _context.SaveChangesAsync();
@@ -68,14 +68,14 @@ namespace EventHub.Application.Repositories.Accounts
         public async Task<List<Account>> GetAllAsync()
         {
            
-            return await _context.Accounts
-        .Include(account => account.Events) 
+            return await _context.Account
+        .Include(account => account.CreatedEvents) 
         .ToListAsync(); 
         }
 
         public async Task<Account> GetByIdAsync(Guid id)
         {
-            return await _context.Accounts.Include(evnt=> evnt.Events).FirstOrDefaultAsync(ac => ac.AccountID == id);
+            return await _context.Account.Include(evnt=> evnt.CreatedEvents).FirstOrDefaultAsync(ac => ac.ID_Account == id);
         }
 
         public async Task UpdateAccountAsync(Account account)
