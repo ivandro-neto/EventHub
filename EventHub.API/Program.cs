@@ -1,4 +1,5 @@
 
+using EventHub.API.Filters;
 using EventHub.Application.Repositories.Accounts;
 using EventHub.Application.Repositories.Events;
 using EventHub.Application.UseCases.Accounts;
@@ -37,8 +38,8 @@ namespace EventHub.API
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
-            
-            
+
+            builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
             builder.Services.AddDbContext<EventHubDBContext>(option => option.UseSqlServer(connectionString, options =>
             {
                 options.CommandTimeout(120); // Define o tempo limite para 120 segundos (2 minutos)
