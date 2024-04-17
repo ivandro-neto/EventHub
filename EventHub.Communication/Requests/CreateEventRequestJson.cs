@@ -16,5 +16,6 @@ namespace EventHub.Communication.Requests
         public string Type { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public int Capacity { get; set; }
+        public string Status {  get; set; } = "Active";
     }
 }

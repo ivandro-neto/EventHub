@@ -7,7 +7,6 @@ using EventHub.Application.UseCases.Accounts.Register;
 using EventHub.Application.UseCases.Events;
 using EventHub.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
 
 namespace EventHub.API
@@ -23,13 +22,18 @@ namespace EventHub.API
             builder.Services.AddScoped<IEventRepository, EventRepository>();
 
             //Add Use Cases
-            builder.Services.AddScoped<RegisterEventUseCase>();
+            //Events Use Cases
             builder.Services.AddScoped<GetAllEventsUseCase>();
             builder.Services.AddScoped<GetEventByIdUseCase>();
-            builder.Services.AddScoped<RegisterAttendeeUseCase>();
+            builder.Services.AddScoped<RegisterEventUseCase>();
+            builder.Services.AddScoped<UpdateEventUseCase>();
+            builder.Services.AddScoped<DeleteEventUseCase>();
+
+            //Accounts Use Cases
             builder.Services.AddScoped<GetAllAccountsUseCase>();
             builder.Services.AddScoped<AccountRegisterUseCase>();
 
+            builder.Services.AddScoped<RegisterAttendeeUseCase>();
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("EventHubDBConnectionString");
@@ -54,6 +58,8 @@ namespace EventHub.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 
             var app = builder.Build();
 

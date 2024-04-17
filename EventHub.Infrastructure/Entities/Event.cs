@@ -32,16 +32,14 @@ public class Event
     public int Capacity { get; set; }
 
     [MaxLength(50)]
-    public string Status { get; set; } = string.Empty;
+    public string Status { get; set; } = "Inactive";
 
     public Guid CreatorID { get; set; }
 
     [ForeignKey("CreatorID")]
     public Account Creator { get; set; } = new();
-    //[InverseProperty("Event")]
-    //public ICollection<CheckIn> checkIns{ get; set; }
-    //[InverseProperty("Event")]
-    //public ICollection<EventCategory> EventCategories { get; set; }
+    public List<CheckIn> checkIns { get; set; } = new();
+    public List<EventCategory> EventCategories { get; set; } = new();
 
     public void Update(string name, string description, DateTime startDate, DateTime endDate, string location, string type, decimal price, int capacity, string status)
     {

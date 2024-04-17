@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EventHub.Exceptions
 {
-    public class ConflitErrorException : SystemException
+    public class ConflitErrorException : EventHubException
     {
         public ConflitErrorException(string message) : base(message) { }
     }

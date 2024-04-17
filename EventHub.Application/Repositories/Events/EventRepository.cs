@@ -1,4 +1,5 @@
 ﻿using EventHub.Communication.Requests;
+using EventHub.Exceptions;
 using EventHub.Infrastructure;
 using EventHub.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +26,14 @@ namespace EventHub.Application.Repositories.Events
         public async Task CreateEventAsync(Guid userId, Event input)
         {
             var userExists = await _context.Account.FirstOrDefaultAsync(ac => ac.ID_Account == userId);
+            var eventExists = await _context.Event.FirstOrDefaultAsync(evnt => evnt.Name == input.Name && evnt.Description == input.Description && evnt.CreatorID == userId);
             if (userExists is null)
             {
-                throw new ArgumentNullException("User not found.");
+                throw new NotFoundException("User not found.");
+            }
+            if (eventExists is not null)
+            {
+                throw new ConflitErrorException("This event already exist.");
             }
 
             // Atribuir o ID do usuário como criador do evento
