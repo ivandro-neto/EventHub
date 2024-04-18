@@ -1,20 +1,17 @@
-﻿using EventHub.Infrastructure;
+﻿using EventHub.Exceptions;
+using EventHub.Infrastructure;
 using EventHub.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Principal;
 
-namespace EventHub.Application.Repositories.Accounts
+namespace EventHub.Application.Repositories
 {
     public interface IAccountRepository
     {
         Task<List<Account>> GetAllAsync();
         Task<Account> GetByIdAsync(Guid id);
         Task CreateAccountAsync(Account account);
+      
         Task UpdateAccountAsync(Account account);
         Task DeleteAccountAsync(Guid id);
     }
@@ -31,6 +28,8 @@ namespace EventHub.Application.Repositories.Accounts
             await _context.SaveChangesAsync();
         }
 
+       
+
         public async Task DeleteAccountAsync(Guid id)
         {
             using (var transaction = _context.Database.BeginTransaction())
@@ -39,9 +38,9 @@ namespace EventHub.Application.Repositories.Accounts
                 {
                     // Encontra a conta pelo ID
                     var account = await _context.Account.Include(a => a.CreatedEvents).FirstOrDefaultAsync(ac => ac.ID_Account == id);
-                    if (account == null)
+                    if (account is null)
                     {
-                        throw new ArgumentException($"Conta com o ID {id} não encontrada.");
+                        throw new NotFoundException($"Conta com o ID {id} não encontrada.");
                     }
 
                     // Remove os eventos associados à conta
@@ -56,11 +55,11 @@ namespace EventHub.Application.Repositories.Accounts
                     // Commit da transação
                     await transaction.CommitAsync();
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Em caso de erro, faz rollback da transação
                     await transaction.RollbackAsync();
-                    throw new Exception("Ocorreu um erro ao excluir a conta.", ex);
+                    throw new Exception("Ocorreu um erro ao excluir a conta.");
                 }
             }
         }
@@ -75,7 +74,12 @@ namespace EventHub.Application.Repositories.Accounts
 
         public async Task<Account> GetByIdAsync(Guid id)
         {
-            return await _context.Account.Include(evnt=> evnt.CreatedEvents).FirstOrDefaultAsync(ac => ac.ID_Account == id);
+            var account = await _context.Account.Include(evnt=> evnt.CreatedEvents).FirstOrDefaultAsync(ac => ac.ID_Account == id);
+            if(account is null)
+            {
+                throw new NotFoundException("There is no any account with provided id.");
+            }
+            return account;
         }
 
         public async Task UpdateAccountAsync(Account account)

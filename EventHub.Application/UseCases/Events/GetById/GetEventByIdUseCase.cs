@@ -1,4 +1,4 @@
-﻿using EventHub.Application.Repositories.Events;
+﻿using EventHub.Application.Repositories;
 using EventHub.Communication.Responses;
 using EventHub.Infrastructure.Entities;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventHub.Application.UseCases.Events
+namespace EventHub.Application.UseCases
 {
     public class GetEventByIdUseCase
     {
@@ -31,9 +31,9 @@ namespace EventHub.Application.UseCases.Events
                 Type = evnt.Type,
                 Price = evnt.Price,
                 Capacity = evnt.Capacity,
-                EventCategories = evnt.EventCategories,
                 Status = evnt.Status,
-                CheckinAmount = evnt.checkIns.Count(),
+                CheckinAmount = evnt.checkIns.Where(check => check.State == "Active").ToList().Count,
+                RegistedAmount = evnt.checkIns.Where(check => check.State == "Pendent").ToList().Count,
                 CreatorID = evnt.CreatorID,
             };
         }

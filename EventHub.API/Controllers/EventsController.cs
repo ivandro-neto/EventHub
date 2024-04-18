@@ -1,4 +1,4 @@
-﻿using EventHub.Application.UseCases.Events;
+﻿using EventHub.Application.UseCases;
 using EventHub.Communication.Requests;
 using EventHub.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -14,14 +14,15 @@ namespace EventHub.API.Controllers
         private readonly GetEventByIdUseCase _getEventByIdUseCase;
         private readonly UpdateEventUseCase _updateEventUseCase;
         private readonly DeleteEventUseCase _deleteEventUseCase;
-        public EventsController(RegisterEventUseCase registerEventUseCase, GetAllEventsUseCase getAllEventsUseCase, GetEventByIdUseCase eventByIdUseCase, UpdateEventUseCase updateEventUseCase, DeleteEventUseCase deleteEventUseCase ) 
+        private readonly AttendeeRegisterUseCase _attendeeRegisterUseCase;
+        public EventsController(RegisterEventUseCase registerEventUseCase, GetAllEventsUseCase getAllEventsUseCase, GetEventByIdUseCase eventByIdUseCase, UpdateEventUseCase updateEventUseCase, DeleteEventUseCase deleteEventUseCase, AttendeeRegisterUseCase attendeeRegisterUseCase) 
         {
             _registerEventUseCase = registerEventUseCase;
             _getAllEventsUseCase = getAllEventsUseCase;
             _getEventByIdUseCase = eventByIdUseCase;
             _updateEventUseCase = updateEventUseCase;
             _deleteEventUseCase = deleteEventUseCase;
-
+            _attendeeRegisterUseCase = attendeeRegisterUseCase;
         }
 
         [HttpGet]
@@ -53,6 +54,18 @@ namespace EventHub.API.Controllers
         public async Task <IActionResult>CreateEvent([FromRoute] Guid userID, [FromBody] CreateEventRequestJson Event)
         {
             var response = await _registerEventUseCase.Execute(userID, Event);
+            return Created(string.Empty, response);
+        }
+
+        [HttpPost]
+        [Route("{eventID}/checkin/{userID}")]
+        [ProducesResponseType(typeof(EventCreatedResponseJson), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status409Conflict)]
+
+        public async Task<IActionResult> AddAttendee([FromRoute] Guid eventID, [FromRoute] Guid userID)
+        {
+            var response = await _attendeeRegisterUseCase.Execute(eventID, userID);
             return Created(string.Empty, response);
         }
 

@@ -4,7 +4,7 @@ using EventHub.Infrastructure;
 using EventHub.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventHub.Application.Repositories.Events
+namespace EventHub.Application.Repositories
 {
     public interface IEventRepository
     {
@@ -64,7 +64,7 @@ namespace EventHub.Application.Repositories.Events
 
         public async Task<Event> GetByIdAsync(Guid id)
         {
-            var evnt = await _context.Event.FirstOrDefaultAsync(evnt => evnt.ID_Event == id);
+            var evnt = await _context.Event.Include(checkin => checkin.checkIns).FirstOrDefaultAsync(evnt => evnt.ID_Event == id);
             return evnt;
         }
 

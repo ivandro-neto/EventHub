@@ -1,4 +1,4 @@
-﻿using EventHub.Application.Repositories.Events;
+﻿using EventHub.Application.Repositories;
 using EventHub.Communication.Responses;
 using EventHub.Infrastructure.Entities;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventHub.Application.UseCases.Events
+namespace EventHub.Application.UseCases
 {
     public class GetAllEventsUseCase
     {

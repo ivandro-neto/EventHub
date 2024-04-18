@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace EventHub.Communication.Responses
 {
-    internal class CheckinCreatedJson
+    public class CheckinCreatedJson
     {
+        public Guid id {  get; set; }
+        public Guid AccountID { get; set; }
+        public Guid EventID { get; set; }
+
     }
 }

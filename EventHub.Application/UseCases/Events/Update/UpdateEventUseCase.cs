@@ -1,15 +1,10 @@
-﻿using EventHub.Application.Repositories.Events;
+﻿using EventHub.Application.Repositories;
 using EventHub.Communication.Requests;
 using EventHub.Communication.Responses;
 using EventHub.Exceptions;
 using EventHub.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EventHub.Application.UseCases.Events
+namespace EventHub.Application.UseCases
 {
     public class UpdateEventUseCase
     {

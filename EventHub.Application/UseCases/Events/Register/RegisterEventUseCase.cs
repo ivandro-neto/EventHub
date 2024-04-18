@@ -1,11 +1,11 @@
-﻿using EventHub.Application.Repositories.Events;
+﻿using EventHub.Application.Repositories;
 using EventHub.Communication.Requests;
 using EventHub.Communication.Responses;
 using EventHub.Exceptions;
 using EventHub.Infrastructure.Entities;
 
 
-namespace EventHub.Application.UseCases.Events
+namespace EventHub.Application.UseCases
 {
     public class RegisterEventUseCase
     {

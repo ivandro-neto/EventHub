@@ -8,7 +8,6 @@ namespace EventHub.Infrastructure
     {
         public DbSet<Account> Account { get; set; }
         public DbSet<Event> Event { get; set; }
-        public DbSet<Attendee> Attendee { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<EventCategory> EventCategory { get; set; }
         public DbSet<CheckIn> CheckIn { get; set; }

@@ -7,7 +7,7 @@ namespace EventHub.Infrastructure.Entities;
 public class Account
 {
     
-    private string passwordHash;
+    private string passwordHash = string.Empty;
    
     [Key]
     public Guid ID_Account { get; set; }
@@ -33,8 +33,12 @@ public class Account
     [Required]
     [MaxLength(255)]
     public string Email { get; set; } = string.Empty;
-
-    public DateTime RegistrationDate { get; set; }
+    public DateTime BirthDate { get; set; }
+    public string Gender { get; set; } = string.Empty;
+    public string Address { get; set; } = string.Empty;
+    public string ContactInfo { get; set; } = string.Empty;
+    public string AccountType { get; set; } = string.Empty;
+    public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 
     public ICollection<Event> CreatedEvents { get; set; } = new List<Event>();
 

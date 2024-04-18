@@ -24,8 +24,15 @@ namespace EventHub.Communication.Requests
         [Required]
         [MaxLength(255)]
         public string Password { get; set; } = string.Empty;
+        [Required]
+        public DateTime BirthDate { get; set; }
+
+        public string Gender { get; set; } = string.Empty;
+
+        public string Address { get; set; } = string.Empty;
+
+        public string ContactInfo { get; set; } = string.Empty;
 
 
-       
     }
 }

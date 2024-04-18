@@ -1,10 +1,7 @@
 
 using EventHub.API.Filters;
-using EventHub.Application.Repositories.Accounts;
-using EventHub.Application.Repositories.Events;
-using EventHub.Application.UseCases.Accounts;
-using EventHub.Application.UseCases.Accounts.Register;
-using EventHub.Application.UseCases.Events;
+using EventHub.Application.Repositories;
+using EventHub.Application.UseCases;
 using EventHub.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -20,6 +17,7 @@ namespace EventHub.API
             //Configuring Repositories and Database context dependency
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IEventRepository, EventRepository>();
+            builder.Services.AddScoped<ICheckInRepository, CheckInRepository>();
 
             //Add Use Cases
             //Events Use Cases
@@ -28,12 +26,16 @@ namespace EventHub.API
             builder.Services.AddScoped<RegisterEventUseCase>();
             builder.Services.AddScoped<UpdateEventUseCase>();
             builder.Services.AddScoped<DeleteEventUseCase>();
+            builder.Services.AddScoped<AttendeeRegisterUseCase>();
 
             //Accounts Use Cases
             builder.Services.AddScoped<GetAllAccountsUseCase>();
             builder.Services.AddScoped<AccountRegisterUseCase>();
 
-            builder.Services.AddScoped<RegisterAttendeeUseCase>();
+            //Checkins Use Cases
+            builder.Services.AddScoped<GetCheckInByIdUseCase>();
+            builder.Services.AddScoped<RemoveCheckInUseCase>();
+
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("EventHubDBConnectionString");

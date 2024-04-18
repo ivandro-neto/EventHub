@@ -14,9 +14,9 @@ namespace EventHub.Infrastructure.Entities
         public Guid ID_Category { get; set; }
 
         [ForeignKey("ID_Event")]
-        public Event Event { get; set; }
+        public Event Event { get; set; } = new Event();
 
         [ForeignKey("ID_Category")]
-        public Category Category { get; set; }
+        public Category Category { get; set; } = new Category();
     }
 }

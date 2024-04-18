@@ -13,6 +13,7 @@ public class EventResponseJson
     public decimal Price { get; set; }
     public int Capacity { get; set; }
     public int CheckinAmount { get; set; }
+    public int RegistedAmount { get; set; }
     public string Status { get; set; } = string.Empty;
     public List<EventCategory> EventCategories { get; set; } // Removi a inicialização aqui
     public Guid CreatorID { get; set; }

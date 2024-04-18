@@ -1,5 +1,4 @@
-﻿using EventHub.Application.UseCases.Accounts;
-using EventHub.Application.UseCases.Accounts.Register;
+﻿using EventHub.Application.UseCases;
 using EventHub.Communication.Requests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,14 +17,14 @@ namespace EventHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEvents()
+        public async Task<IActionResult> GetAllAccounts()
         {
             var responseList = await _getAllAccountsUseCase.Execute();
             return Ok(responseList);
         }
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> CreateEvent([FromBody] AccountCreateRequestJson account)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountCreateRequestJson account)
         {
             await _accountRegisterUseCase.Execute(account);
             return Created();
