@@ -5,7 +5,7 @@ namespace EventHub.Infrastructure.Entities;
 public class CheckIn
 {
     [Key]
-    public Guid ID_CheckIn { get; set; }
+    public Guid ID_CheckIn { get; set; } = Guid.NewGuid();
 
     public Guid ID_Event { get; set; }
 

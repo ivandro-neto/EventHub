@@ -18,6 +18,7 @@ namespace EventHub.API
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IEventRepository, EventRepository>();
             builder.Services.AddScoped<ICheckInRepository, CheckInRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             //Add Use Cases
             //Events Use Cases
@@ -27,7 +28,8 @@ namespace EventHub.API
             builder.Services.AddScoped<UpdateEventUseCase>();
             builder.Services.AddScoped<DeleteEventUseCase>();
             builder.Services.AddScoped<AttendeeRegisterUseCase>();
-
+            builder.Services.AddScoped<AddCategoryToEventUseCase>();
+            builder.Services.AddScoped<RemoveCategoryFromEventUseCase>();
             //Accounts Use Cases
             builder.Services.AddScoped<GetAllAccountsUseCase>();
             builder.Services.AddScoped<AccountRegisterUseCase>();
@@ -39,7 +41,7 @@ namespace EventHub.API
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("EventHubDBConnectionString");
-            
+
             builder.Services.AddControllersWithViews().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
@@ -56,7 +58,7 @@ namespace EventHub.API
             });
 
             builder.Services.AddControllers();
-            
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

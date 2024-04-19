@@ -32,7 +32,7 @@ namespace EventHub.API.Filters
                     context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     context.Result = new NotFoundObjectResult(new ErrorResponseJson((int)HttpStatusCode.NotFound, context.Exception.Message));
                     break;
-                case ConflitErrorException:
+                case ConflictErrorException:
                     context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
                     context.Result = new ConflictObjectResult(new ErrorResponseJson((int)HttpStatusCode.Conflict, context.Exception.Message));
                     break;

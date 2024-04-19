@@ -17,9 +17,15 @@ namespace EventHub.Application.UseCases
             _repository = eventRepository;
         }
 
-        public async Task<List<EventResponseJson>> Execute()
+        public async Task<List<EventResponseJson>> Execute(Guid? category)
         {
             var events = await _repository.GetAllAsync();
+
+            if(category.HasValue)
+            {
+                events = events.Where(e => e.EventCategories.Any(ec => ec.ID_Category == category.Value)).ToList();
+            }
+
             return events.Select(evnt => new EventResponseJson()
             {
                 ID_Event = evnt.ID_Event,

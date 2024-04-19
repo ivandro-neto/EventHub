@@ -33,7 +33,7 @@ namespace EventHub.Application.Repositories
             }
             if (eventExists is not null)
             {
-                throw new ConflitErrorException("This event already exist.");
+                throw new ConflictErrorException("This event already exist.");
             }
 
             // Atribuir o ID do usuário como criador do evento
@@ -59,19 +59,29 @@ namespace EventHub.Application.Repositories
 
         public async Task<List<Event>> GetAllAsync()
         {
-            return await _context.Event.ToListAsync();
+            return await _context.Event.Include(evntCategories => evntCategories.EventCategories).ToListAsync();
         }
 
         public async Task<Event> GetByIdAsync(Guid id)
         {
-            var evnt = await _context.Event.Include(checkin => checkin.checkIns).FirstOrDefaultAsync(evnt => evnt.ID_Event == id);
+            var evnt = await _context.Event.Include(checkin => checkin.checkIns).Include(evntCategories => evntCategories.EventCategories).FirstOrDefaultAsync(evnt => evnt.ID_Event == id);
+            if(evnt is null)
+            {
+                throw new NotFoundException("There is no any event with this id.");
+            }
             return evnt;
         }
 
         public async Task UpdateEventAsync(Guid id, Event input)
         {
-            var evnt = await _context.Event.FirstOrDefaultAsync(e => e.ID_Event == id) ?? throw new InvalidOperationException("");
-            evnt.Update(input.Name, input.Description, input.StartDateTime, input.EndDateTime, input.Location, input.Type, input.Price, input.Capacity, input.Status);
+            var evnt = await _context.Event.Include(e => e.EventCategories).FirstOrDefaultAsync(e => e.ID_Event == id);
+
+            if (evnt is null)
+            {
+                throw new NotFoundException("Event Not found.");
+
+            }
+            evnt.Update(input.Name, input.Description, input.StartDateTime, input.EndDateTime, input.Location, input.Type, input.Price, input.Capacity, input.Status, input.EventCategories);
 
              await _context.SaveChangesAsync();
         }

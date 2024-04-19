@@ -35,7 +35,7 @@ namespace EventHub.Application.Repositories
             }
             if (eventExists is null)
             {
-                throw new ConflitErrorException("Event not found.");
+                throw new ConflictErrorException("Event not found.");
             }
             CheckIn attendee = new()
             {

@@ -10,7 +10,7 @@ public class Account
     private string passwordHash = string.Empty;
    
     [Key]
-    public Guid ID_Account { get; set; }
+    public Guid ID_Account { get; set; } = Guid.NewGuid();
 
     [Required]
     [MaxLength(50)]
@@ -37,7 +37,8 @@ public class Account
     public string Gender { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string ContactInfo { get; set; } = string.Empty;
-    public string AccountType { get; set; } = string.Empty;
+    public string Plan { get; set; } = "free";
+    public string AccountType { get; set; } = "normal";
     public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 
     public ICollection<Event> CreatedEvents { get; set; } = new List<Event>();

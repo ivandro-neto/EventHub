@@ -15,7 +15,9 @@ namespace EventHub.API.Controllers
         private readonly UpdateEventUseCase _updateEventUseCase;
         private readonly DeleteEventUseCase _deleteEventUseCase;
         private readonly AttendeeRegisterUseCase _attendeeRegisterUseCase;
-        public EventsController(RegisterEventUseCase registerEventUseCase, GetAllEventsUseCase getAllEventsUseCase, GetEventByIdUseCase eventByIdUseCase, UpdateEventUseCase updateEventUseCase, DeleteEventUseCase deleteEventUseCase, AttendeeRegisterUseCase attendeeRegisterUseCase) 
+        private readonly AddCategoryToEventUseCase _addCategoryToEventUseCase;
+        private readonly RemoveCategoryFromEventUseCase _removeCategoryFromEventUseCase;
+        public EventsController(RegisterEventUseCase registerEventUseCase, GetAllEventsUseCase getAllEventsUseCase, GetEventByIdUseCase eventByIdUseCase, UpdateEventUseCase updateEventUseCase, DeleteEventUseCase deleteEventUseCase, AttendeeRegisterUseCase attendeeRegisterUseCase, AddCategoryToEventUseCase addCategoryToEventUseCase, RemoveCategoryFromEventUseCase removeCategoryFromEventUse) 
         {
             _registerEventUseCase = registerEventUseCase;
             _getAllEventsUseCase = getAllEventsUseCase;
@@ -23,15 +25,17 @@ namespace EventHub.API.Controllers
             _updateEventUseCase = updateEventUseCase;
             _deleteEventUseCase = deleteEventUseCase;
             _attendeeRegisterUseCase = attendeeRegisterUseCase;
+            _addCategoryToEventUseCase = addCategoryToEventUseCase;
+            _removeCategoryFromEventUseCase = removeCategoryFromEventUse;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(List<EventResponseJson>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status404NotFound)]
         
-        public async Task<IActionResult>GetAllEvents()
+        public async Task<IActionResult> GetAllEvents([FromQuery] Guid? category)
         {
-            var responseList = await _getAllEventsUseCase.Execute();
+            var responseList = await _getAllEventsUseCase.Execute(category);
             return Ok(responseList);
         }
 
@@ -88,6 +92,27 @@ namespace EventHub.API.Controllers
         {
             var response = await _deleteEventUseCase.Execute(id);
             return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("{eventId}/categories/")]
+        [ProducesResponseType(typeof(CategoryAddedResponseJson), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AddCategoryToEvent([FromRoute]Guid eventId, [FromQuery]string categoryName)
+        {
+            var response = await _addCategoryToEventUseCase.Execute(eventId, categoryName);
+            return Created(string.Empty, response);
+        }
+
+        [HttpDelete]
+        [Route("{eventId}/categories/{categoryId}")]
+        [ProducesResponseType(typeof(CategoryAddedResponseJson), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RemoveCategoryFromEvent(Guid eventId, Guid categoryId)
+        {
+            await _removeCategoryFromEventUseCase.Execute(eventId, categoryId);
+            return Ok();
         }
     }
 }

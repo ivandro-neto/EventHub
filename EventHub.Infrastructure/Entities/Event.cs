@@ -9,7 +9,7 @@ namespace EventHub.Infrastructure.Entities;
 public class Event
 {
     [Key]
-    public Guid ID_Event { get; set; }
+    public Guid ID_Event { get; set; } = Guid.NewGuid();
 
     [Required]
     [MaxLength(255)]
@@ -41,7 +41,7 @@ public class Event
     public List<CheckIn> checkIns { get; set; } = new();
     public List<EventCategory> EventCategories { get; set; } = new();
 
-    public void Update(string name, string description, DateTime startDate, DateTime endDate, string location, string type, decimal price, int capacity, string status)
+    public void Update(string name, string description, DateTime startDate, DateTime endDate, string location, string type, decimal price, int capacity, string status, List<EventCategory> eventCategories)
     {
         Name = name;
         Description = description;
@@ -52,5 +52,8 @@ public class Event
         Price = price;
         Capacity = capacity;
         Status = status;
+        EventCategories = eventCategories;
     }
+
+    
 }
