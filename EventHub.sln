@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.API", "EventHub.API\EventHub.API.csproj", "{73FC84B5-8096-4B27-AB94-2BEA4636A8CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.API", "EventHub.API\EventHub.API.csproj", "{73FC84B5-8096-4B27-AB94-2BEA4636A8CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.Application", "EventHub.Application\EventHub.Application.csproj", "{B1397A76-F4F8-4A15-B429-C51DA5FC554B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Application", "EventHub.Application\EventHub.Application.csproj", "{B1397A76-F4F8-4A15-B429-C51DA5FC554B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.Communication", "EventHub.Communication\EventHub.Communication.csproj", "{96F85354-C6F8-4869-A095-943C3248B3F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Communication", "EventHub.Communication\EventHub.Communication.csproj", "{96F85354-C6F8-4869-A095-943C3248B3F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.Exceptions", "EventHub.Exceptions\EventHub.Exceptions.csproj", "{E1C39399-FE8D-46E5-8300-E7BAFB05883C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Exceptions", "EventHub.Exceptions\EventHub.Exceptions.csproj", "{E1C39399-FE8D-46E5-8300-E7BAFB05883C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.Infrastructure", "EventHub.Infrastructure\EventHub.Infrastructure.csproj", "{C9A8D671-7E78-4D93-8478-351CC0E25D23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Infrastructure", "EventHub.Infrastructure\EventHub.Infrastructure.csproj", "{C9A8D671-7E78-4D93-8478-351CC0E25D23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

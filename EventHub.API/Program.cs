@@ -1,4 +1,3 @@
-
 using EventHub.API.Filters;
 using EventHub.Application.Repositories;
 using EventHub.Application.UseCases;
@@ -58,26 +57,33 @@ namespace EventHub.API
             });
 
             builder.Services.AddControllers();
-
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwagger(c => {
+                    c.RouteTemplate = "api-docs/{documentName}/swagger.json";
+                });
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/api-docs/v1/swagger.json", "EventHub API V1");
+                    c.RoutePrefix = "api-docs";
+                });
+
             }
+
+            app.UseStaticFiles();
+            
+            app.UseRouting();
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.MapGet("/", () => Results.File("index.html", "text/html"));
 
             app.MapControllers();
 
