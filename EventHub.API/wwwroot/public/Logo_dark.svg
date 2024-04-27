@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3530.77 924.78">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: Roboto-Bold, Roboto;
+        font-size: 820.96px;
+        font-weight: 700;
+        opacity: .94;
+      }
+
+      .cls-2 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2, .cls-3 {
+        fill: #eef;
+      }
+
+      .cls-3 {
+        letter-spacing: 0em;
+      }
+
+      .cls-4 {
+        fill: #724e91;
+        letter-spacing: 0em;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <text class="cls-1" transform="translate(0 702.31)"><tspan class="cls-3" x="0" y="0">ev</tspan><tspan class="cls-2" x="848.22" y="0">ent</tspan><tspan class="cls-4" x="2029.15" y="0">Hub</tspan></text>
+  </g>
+</svg>
